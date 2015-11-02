@@ -13,6 +13,8 @@
 #include "Menu.hpp"
 #include "Editor.hpp"
 
+void toggleFullscreen(MainWindow &window, sf::VideoMode vMode);
+
 int main()
 {
     sf::VideoMode desktopMode= sf::VideoMode::getDesktopMode();
@@ -26,17 +28,7 @@ int main()
 
     window.linkKey(sf::Keyboard::Escape, [&window](){ window.close(); });
     window.linkKey(sf::Keyboard::C,      [&window](){ window.clearRenderList(); window.clearArea(); });
-    window.linkKey(sf::Keyboard::K,      [&window, &desktopMode](){
-                                                                        window.close();
-                                                                        if(!window.isFullscreen())
-                                                                        {
-                                                                            window.create(desktopMode, "Blop", sf::Style::Fullscreen);
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            window.create(desktopMode, "Blop");
-                                                                        }
-                                                                    });
+    window.linkKey(sf::Keyboard::K,      [&window, &desktopMode](){ toggleFullscreen(window, desktopMode); });
 
 
     Coord menuCoord; menuCoord.x = 20; menuCoord.y = 500;
@@ -82,5 +74,20 @@ int main()
     }
 
     return 0;
+}
+
+
+
+void toggleFullscreen(MainWindow &window, sf::VideoMode vMode)
+{
+    window.close();
+    if(!window.isFullscreen())
+    {
+        window.create(vMode, "Blop", sf::Style::Fullscreen);
+    }
+    else
+    {
+        window.create(vMode, "Blop");
+    }
 }
 
