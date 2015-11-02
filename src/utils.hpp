@@ -10,6 +10,8 @@ enum Game_State { IN_GAME, IN_MAIN_MENU, IN_EDITOR};
 struct Coord { int x=0; int y=0;};
 bool operator==(const Coord &x, const Coord &y);
 
+
+
 namespace std
 {
     template <>

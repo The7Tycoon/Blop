@@ -10,6 +10,7 @@
 #include "EventManager.hpp"
 #include "utils.hpp"
 
+
 class MainWindow : public sf::RenderWindow, public EventManager
 {
 public:

@@ -34,8 +34,6 @@ private:
 
                 t *= states.transform;
 
-                //std::cout << "Tile " << i << "::" << (i % m_width) * m_tileSize.x << ":" << i / m_width * m_tileSize.y << "\n";
-
                 target.draw(m_solidTileShape, t);
             }
         }

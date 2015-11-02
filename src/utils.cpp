@@ -7,3 +7,8 @@ bool operator==(const Coord &x, const Coord &y)
     else
         return false;
 }
+
+
+
+
+
