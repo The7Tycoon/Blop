@@ -16,3 +16,8 @@ void Entity::create(const std::string &name, const std::string &type, sf::Vector
     m_type = type;
     m_position = pos;
 }
+
+sf::Vector2f Entity::getPosition()
+{
+    return m_position;
+}
