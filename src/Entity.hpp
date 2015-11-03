@@ -9,14 +9,15 @@ class Entity
 {
 public:
     Entity();
-    Entity(const std::string &name, const std::string &type, sf::Vector2f pos);
-    void create(const std::string &name, const std::string &type, sf::Vector2f pos);
+    Entity(const std::string &name, const std::string &type);
+    void create(const std::string &name, const std::string &type);
 
-    sf::Vector2f getPosition();
+    std::string getProperty(const std::string &pName);
 
 private:
-    sf::Vector2f m_position;
     std::string m_type, m_name;
+
+    std::map<std::string, std::string> m_properties;
 
 };
 

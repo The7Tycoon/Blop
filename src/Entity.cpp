@@ -5,19 +5,18 @@ Entity::Entity()
 
 }
 
-Entity::Entity(const std::string &name, const std::string &type, sf::Vector2f pos)
+Entity::Entity(const std::string &name, const std::string &type)
 {
-    create(name, type, pos);
+    create(name, type);
 }
 
-void Entity::create(const std::string &name, const std::string &type, sf::Vector2f pos)
+void Entity::create(const std::string &name, const std::string &type)
 {
     m_name = name;
     m_type = type;
-    m_position = pos;
 }
 
-sf::Vector2f Entity::getPosition()
+std::string Entity::getProperty(const std::string &pName)
 {
-    return m_position;
+    return m_properties[pName];
 }
