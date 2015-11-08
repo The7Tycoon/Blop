@@ -12,6 +12,8 @@
 #include "MainWindow.hpp"
 #include "Menu.hpp"
 #include "Editor.hpp"
+#include "Entity.hpp"
+
 
 void toggleFullscreen(MainWindow &window, sf::VideoMode vMode);
 
@@ -47,10 +49,30 @@ int main()
 
     Editor editor;
 
-    //Map map0;
-    //map0.loadFromeFolder("map/map0");
+    Map map0;
+    map0.loadFromeFolder("map/Interior");
 
-    window.linkArea(mainMenu.getItemBounds("Play"),    [](){std::cout << "Play\n"; });
+    {
+    Entity ent("myEntity");
+    ent.setbProperty("isAlive", true);
+    ent.setfProperty("pos_X", 12.5);
+    ent.setiProperty("point", 128);
+    ent.setSProperty("type", "score_item");
+
+    std::cout << ent.getbProperty("isAlive")<< ", "
+              << ent.getfProperty("pos_X")  << ", "
+              << ent.getiProperty("point")  << ", "
+              << ent.getsProperty("type")   << std::endl;
+    }
+
+    window.linkArea(mainMenu.getItemBounds("Play"),    [&](){   std::cout << "Play\n";
+
+                                                                window.clearRenderList();
+                                                                window.clearArea();
+
+                                                                window.addToRender(&map0);
+
+                                                                });
     window.linkArea(mainMenu.getItemBounds("Editor"),  [&window, &editor](){std::cout << "Editor\n";
 
                                                                         //editor.open(window, "tileset/tileset.png", 32, 32, map0);
