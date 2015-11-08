@@ -50,34 +50,34 @@ int main()
     Editor editor;
 
     Map map0;
-    map0.loadFromeFolder("map/Interior");
+
 
     {
     Entity ent("myEntity");
-    ent.setbProperty("isAlive", true);
-    ent.setfProperty("pos_X", 12.5);
-    ent.setiProperty("point", 128);
-    ent.setSProperty("type", "score_item");
 
-    std::cout << ent.getbProperty("isAlive")<< ", "
-              << ent.getfProperty("pos_X")  << ", "
-              << ent.getiProperty("point")  << ", "
-              << ent.getsProperty("type")   << std::endl;
+    ent.loadFromFile("base_ent/player.ent");
+
+    std::cout << ent.getProperty<std::string>("skin") << std::endl;
     }
 
-    window.linkArea(mainMenu.getItemBounds("Play"),    [&](){   std::cout << "Play\n";
+    window.linkArea(mainMenu.getItemBounds("Play"),    [&]()
+    {
+        std::cout << "Play\n";
 
-                                                                window.clearRenderList();
-                                                                window.clearArea();
+        window.clearRenderList();
+        window.clearArea();
 
-                                                                window.addToRender(&map0);
+        map0.loadFromeFolder("map/Interior");
+        window.addToRender(&map0);
 
-                                                                });
-    window.linkArea(mainMenu.getItemBounds("Editor"),  [&window, &editor](){std::cout << "Editor\n";
+    });
 
-                                                                        //editor.open(window, "tileset/tileset.png", 32, 32, map0);
-                                                                        editor.open(window, "tileset/tileset.png", 32, 32, Map::getEmptyMap(sf::Vector2u(100, 100)));
-                                                                        });
+    window.linkArea(mainMenu.getItemBounds("Editor"),  [&window, &editor]()
+    {
+        std::cout << "Editor\n";
+        editor.open(window, "tileset/tileset.png", 32, 32, Map::getEmptyMap(sf::Vector2u(100, 100)));
+
+    });
 
     window.linkArea(mainMenu.getItemBounds("Options"), [](){std::cout << "Options\n";});
     window.linkArea(mainMenu.getItemBounds("Quit"), [&window](){window.close();});
