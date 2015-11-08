@@ -52,8 +52,8 @@ private:
     void setTile_auto(MainWindow &window);
 
 
-    // Toolbar's textures
-    sf::Texture t1, t2, t3, t4, t5, t6, t7, t8;
+
+    sf::Texture t1, t2, t3, t4, t5, t6, t7, t8; // Toolbar's textures
     Toolbar m_toolbar;
 
     Map m_map;
