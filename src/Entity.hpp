@@ -2,8 +2,10 @@
 #define H_ENTITY
 
 #include <SFML/Graphics.hpp>
+#include <fstream>
 #include <string>
-
+#include <iostream>
+#include <sstream>
 
 class Entity
 {
@@ -12,15 +14,13 @@ public:
     Entity(const std::string &name);
     void create(const std::string &name);
 
-    std::string getsProperty(const std::string &pName);
-    long getiProperty(const std::string &pName);
-    float getfProperty(const std::string &pName);
-    bool getbProperty(const std::string &pName);
+    void loadFromFile(const std::string &path);
 
-    void setSProperty(const std::string &pName, const std::string &value);
-    void setfProperty(const std::string &pName, float value);
-    void setiProperty(const std::string &pName, long value);
-    void setbProperty(const std::string &pName, bool value);
+    template<typename T>
+    T getProperty(const std::string &pName);
+
+    template<typename T>
+    void setProperty(const std::string &pName, T value);
 
 
 
