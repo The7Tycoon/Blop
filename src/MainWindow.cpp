@@ -32,6 +32,7 @@ void MainWindow::setBackgroundSprite(const sf::Sprite &spr)
 
 void MainWindow::render()
 {
+    //std::cout << "render\n";
     clear();
     if(m_renderList.size() > 0)
     {

@@ -48,8 +48,12 @@ void TilesetViewer::loadTileset(const std::string &path, sf::Vector2u tileDim, s
 /// Input : a pixel coordinate !
 void TilesetViewer::selectTile(sf::Vector2i coord)
 {
-    m_selectedTile.x = (coord.x - m_coord.x + m_viewOffset.x) / m_tileDim.x;
-    m_selectedTile.y = (coord.y - m_coord.y + m_viewOffset.y) / m_tileDim.y;
+    if   (coord.x < m_tileset.getSize().x + m_coord.x + m_viewOffset.x
+       && coord.y < m_tileset.getSize().y + m_coord.y + m_viewOffset.y)
+    {
+        m_selectedTile.x = (coord.x - m_coord.x + m_viewOffset.x) / m_tileDim.x;
+        m_selectedTile.y = (coord.y - m_coord.y + m_viewOffset.y) / m_tileDim.y;
+    }
 
     updateRectPosition();
 }
@@ -74,11 +78,11 @@ void TilesetViewer::dragTileset()
 
     if(deltaX > -DRAG_PRECISION && deltaX < DRAG_PRECISION && deltaY > -DRAG_PRECISION && deltaY < DRAG_PRECISION)
     {
-        if(m_viewOffset.x - deltaX >= 0)
+        if(m_viewOffset.x - deltaX >= 0 && m_tileset.getSize().x > m_viewDim.x)
         {
             m_viewOffset.x -= deltaX;
         }
-        if(m_viewOffset.y - deltaY >= 0)
+        if(m_viewOffset.y - deltaY >= 0 && m_tileset.getSize().y > m_viewDim.y)
         {
             m_viewOffset.y -= deltaY;
         }
@@ -104,7 +108,14 @@ void TilesetViewer::dragTileset()
         }
         ///
 
-        m_tilesetSprite.setTextureRect(sf::IntRect(m_viewOffset.x, m_viewOffset.y, m_viewDim.x, m_viewDim.y));
+        sf::IntRect rect;
+        rect.top = m_viewOffset.x;
+        rect.left = m_viewOffset.y;
+        m_tileset.getSize().x > m_viewDim.x ? rect.width = m_viewDim.x : rect.width = m_tileset.getSize().x;
+        m_tileset.getSize().y > m_viewDim.y ? rect.height = m_viewDim.y : rect.height = m_tileset.getSize().y;
+
+
+        m_tilesetSprite.setTextureRect(rect);
     }
 
     m_oldMousePosition = position;

@@ -10,6 +10,7 @@
 
 #include "TileMap.hpp"
 #include "SolidMap.hpp"
+#include "utils.hpp"
 
 /// Class: Map
 ///
@@ -35,7 +36,7 @@ public:
     bool isTileSolid(unsigned int x, unsigned int y);
     void setTileSolid(unsigned int x, unsigned int y, bool b);
 
-    static Map getEmptyMap(sf::Vector2u s);
+    static Map getEmptyMap(sf::Vector2u s, const std::string &path);
 
     void resetDimensions(unsigned int w, unsigned int h);
     void manualLoad(const std::string &name, const std::string &author, unsigned int width, unsigned int height,
@@ -52,7 +53,7 @@ public:
     bool solidMapDrawed();
 
 private:
-    void loadIndex(const std::string &path);
+    bool loadIndex(const std::string &path);
     void loadLayer(unsigned int layerNumber, const std::string &path, int* layer);
     void loadSolidMap(const std::string &path, std::vector<bool> &solid);
 
@@ -62,15 +63,16 @@ private:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
-       states.transform *= getTransform();
+        //std::cout << "Map draw\n";
+        states.transform *= getTransform();
 
-       states.transform.translate(m_viewOffset);
+        states.transform.translate(m_viewOffset);
 
-       target.draw(m_layer0, states);
-       target.draw(m_layer1, states);
-       target.draw(m_layer2, states);
+        target.draw(m_layer0, states);
+        target.draw(m_layer1, states);
+        target.draw(m_layer2, states);
 
-       if(m_drawSolidMap)
+        if(m_drawSolidMap)
             target.draw(m_solidMap, states);
 
     }

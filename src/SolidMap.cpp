@@ -1,10 +1,10 @@
 #include "SolidMap.hpp"
 
 
-SolidMap::SolidMap()
+SolidMap::SolidMap() : m_width(0), m_height(0)
 {
-    m_tileSize.x = 32, m_tileSize.y = 32;
-    m_solidTileShape.setSize(sf::Vector2f(32, 32));
+    m_tileSize.x = TILE_SIZE, m_tileSize.y = TILE_SIZE;
+    m_solidTileShape.setSize(sf::Vector2f(TILE_SIZE, TILE_SIZE));
     m_solidTileShape.setFillColor(sf::Color(0, 255, 0, 128));
 }
 

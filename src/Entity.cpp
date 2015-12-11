@@ -23,7 +23,7 @@ void Entity::loadFromFile(const std::string &path)
         entity_f >> eName;
         m_name = eName;
 
-        std::cout << "TEST\n";
+        //std::cout << "TEST\n";
 
         while(!entity_f.eof())
         {
@@ -66,15 +66,6 @@ void Entity::loadFromFile(const std::string &path)
 
     entity_f.close();
 }
-
-
-
-
-
-
-
-
-
 
 
 void Entity::create(const std::string &name)

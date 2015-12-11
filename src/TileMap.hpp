@@ -8,6 +8,7 @@ class TileMap : public sf::Drawable, public sf::Transformable
 {
 
 public:
+    TileMap();
 
     bool load(sf::Texture tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height);
 

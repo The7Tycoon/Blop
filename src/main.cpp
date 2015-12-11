@@ -13,6 +13,7 @@
 #include "Menu.hpp"
 #include "Editor.hpp"
 #include "Entity.hpp"
+#include "Player.hpp"
 
 
 void toggleFullscreen(MainWindow &window, sf::VideoMode vMode);
@@ -52,15 +53,26 @@ int main()
     Map map0;
 
 
-    {
+
     Entity ent("myEntity");
 
     ent.loadFromFile("base_ent/player.ent");
 
     std::cout << ent.getProperty<std::string>("skin") << std::endl;
-    }
 
-    window.linkArea(mainMenu.getItemBounds("Play"),    [&]()
+    Player p;
+    p.create("Player");
+    sf::Texture playerTexture; playerTexture.loadFromFile("img/wizard_1.png");
+    sf::Sprite playerSprite(playerTexture);
+    p.setSprite(playerSprite);
+    p.setSpriteInfo(60, 90);
+
+    CoordPair left; left.a = sf::Vector2i(0, 1); left.b = sf::Vector2i(7, 1);
+    p.setWalkingCP(left, left);
+    window.linkKey(sf::Keyboard::W,      [&](){ p.spriteShift(); });
+
+
+    window.linkArea(mainMenu.getItemBounds("Play"), [&window, &map0]()
     {
         std::cout << "Play\n";
 
@@ -75,11 +87,11 @@ int main()
     window.linkArea(mainMenu.getItemBounds("Editor"),  [&window, &editor]()
     {
         std::cout << "Editor\n";
-        editor.open(window, "tileset/tileset.png", 32, 32, Map::getEmptyMap(sf::Vector2u(100, 100)));
+        editor.open(window, "img/mininicular2.png", TILE_SIZE, TILE_SIZE, Map::getEmptyMap(sf::Vector2u(20, 20), "img/mininicular2.png"));
 
     });
 
-    window.linkArea(mainMenu.getItemBounds("Options"), [](){std::cout << "Options\n";});
+    window.linkArea(mainMenu.getItemBounds("Options"), [&](){p.spriteShift(); std::cout << "Options\n";});
     window.linkArea(mainMenu.getItemBounds("Quit"), [&window](){window.close();});
 
 
@@ -88,6 +100,7 @@ int main()
     window.addToRender(&bgSpr);
 
     window.addToRender(&mainMenu);
+    window.addToRender(&p);
 
     while (window.isOpen())
     {

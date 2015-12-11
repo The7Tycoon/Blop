@@ -58,7 +58,7 @@ private:
 
     Map m_map;
     sf::Vector2f m_mapCoord;
-    MapViewer m_mapViewer;
+    //MapViewer m_mapViewer;
 
     sf::Texture m_tileset;
     unsigned int m_tileW, m_tileH;

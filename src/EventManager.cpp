@@ -7,6 +7,7 @@ EventManager::EventManager()
 
 void EventManager::processEvents(sf::RenderWindow *window)
 {
+    //std::cout << "event\n";
     sf::Event event;
     while (window->pollEvent(event))
     {

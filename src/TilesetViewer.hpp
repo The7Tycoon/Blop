@@ -26,9 +26,12 @@ private:
 
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
+        //std::cout << "TV draw\n";
         target.draw(m_whiteBG, states);
         target.draw(m_tilesetSprite, states);
         target.draw(m_selectedTileRect, states);
+        //target.draw(m_whiteBG, states);
+
     }
 
     sf::Texture        m_tileset;

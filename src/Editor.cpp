@@ -1,6 +1,6 @@
 #include "Editor.hpp"
 
-Editor::Editor() : m_toolbar(sf::Vector2u(0, 0), 64, false)
+Editor::Editor() : m_toolbar(sf::Vector2u(0, 0), 64, false), m_tileW(0), m_tileH(0)
 {
     t1.loadFromFile("img/toolbox_l0.png");
     t2.loadFromFile("img/toolbox_l1.png");
@@ -49,7 +49,8 @@ void Editor::openTileset(MainWindow &window, const std::string &path, unsigned i
     m_tilesetViewerCoord = sf::Vector2u(TS_VIEW_RATIO_X * window.getSize().x,
                                         TS_VIEW_RATIO_Y * window.getSize().y);
 
-    m_tilesetViewer.loadTileset(path, sf::Vector2u(tileW, tileH), m_tilesetViewerCoord, sf::Vector2u( (1 - TS_VIEW_RATIO_X) * window.getSize().x,                                                                                                      (1 - TS_VIEW_RATIO_Y) * window.getSize().y ));
+    m_tilesetViewer.loadTileset(path, sf::Vector2u(tileW, tileH), m_tilesetViewerCoord, sf::Vector2u( (1 - TS_VIEW_RATIO_X) * window.getSize().x,
+                                                                                                      (1 - TS_VIEW_RATIO_Y) * window.getSize().y ));
     window.addToRender(&m_tilesetViewer);
 }
 
@@ -92,8 +93,7 @@ void Editor::linkEvent(MainWindow &window)
 
                                     }
                                 }
-
-                     });
+    });
 
     window.linkKey(sf::Keyboard::Escape, [&window](){ window.close(); });
     window.linkKey(sf::Keyboard::C,      [&window](){ window.clearRenderList(); window.clearArea(); });
@@ -169,13 +169,21 @@ void Editor::open(MainWindow &window, const std::string &tilesetPath, unsigned i
 
     m_textLayer.setPosition(64, window.getSize().y - 24);
 
-    openMap(window, m);
-    openTileset(window, tilesetPath, tileW, tileH);
-    createToolbar(window);
-    window.addToRender(&m_textLayer);
-    window.addToRender(&m_textMapInfo);
+    std::cout << "1\n";
 
+    openMap(window, m);
+
+    std::cout << "2\n";
+    openTileset(window, tilesetPath, tileW, tileH);
+    std::cout << "3\n";
+    createToolbar(window);
+    std::cout << "4\n";
+    window.addToRender(&m_textLayer);
+    std::cout << "5\n";
+    window.addToRender(&m_textMapInfo);
+    std::cout << "6\n";
     linkEvent(window);
+    std::cout << "7\n";
 }
 
 void Editor::updateTextLayer()
@@ -238,7 +246,7 @@ void Editor::eraseTile_auto(MainWindow &window)
         try
         {
             if(m_selectedLayer < 3)
-            m_map.setTile(m_selectedLayer, coord, sf::Vector2u(0, 0));
+                m_map.setTile(m_selectedLayer, coord, sf::Vector2u(0, 0));
         }
         catch(int e)
         {
@@ -264,6 +272,10 @@ void Editor::dragTileset_auto(MainWindow &window)
 
 void Editor::setTile_auto(MainWindow &window)
 {
+
+    if(!window.hasFocus())
+        return;
+
     sf::Vector2i mouse = sf::Mouse::getPosition(window);
 
     // Map view
@@ -276,7 +288,7 @@ void Editor::setTile_auto(MainWindow &window)
         try
         {
             if(m_selectedLayer < 3)
-            m_map.setTile(m_selectedLayer, coord, m_tilesetViewer.getSelectedTile());
+                m_map.setTile(m_selectedLayer, coord, m_tilesetViewer.getSelectedTile());
 
         }
         catch(int e)

@@ -1,6 +1,6 @@
 #include "Map.hpp"
 
-Map::Map()
+Map::Map() : m_width(0), m_height(0)
 {
     m_drawSolidMap = false;
 }
@@ -8,18 +8,28 @@ Map::Map()
 void Map::loadFromeFolder(const std::string &path)
 {
 
-    loadIndex(path);
+    if(!loadIndex(path))
+    {
+        std::cout << "Can't open map files. Aborting. \n";
+        return;
+    }
 
-    int layer0[m_width * m_height];
-    int layer1[m_width * m_height];
-    int layer2[m_width * m_height];
+
+    int* layer0 = new int[m_width * m_height];
+    int* layer1 = new int[m_width * m_height];
+    int* layer2 = new int[m_width * m_height];
+
     loadLayer(0, path, layer0);
     loadLayer(1, path, layer1);
     loadLayer(2, path, layer2);
 
-    m_layer0.load(m_tileset0, sf::Vector2u(32, 32), layer0, m_width, m_height);
-    m_layer1.load(m_tileset1, sf::Vector2u(32, 32), layer1, m_width, m_height);
-    m_layer2.load(m_tileset2, sf::Vector2u(32, 32), layer2, m_width, m_height);
+    m_layer0.load(m_tileset0, sf::Vector2u(TILE_SIZE, TILE_SIZE), layer0, m_width, m_height);
+    m_layer1.load(m_tileset1, sf::Vector2u(TILE_SIZE, TILE_SIZE), layer1, m_width, m_height);
+    m_layer2.load(m_tileset2, sf::Vector2u(TILE_SIZE, TILE_SIZE), layer2, m_width, m_height);
+
+    delete [] layer0;
+    delete [] layer1;
+    delete [] layer2;
 
     std::vector<bool> solid(m_width * m_height);
     loadSolidMap(path, solid);
@@ -154,11 +164,11 @@ bool Map::isTileSolid(unsigned int x, unsigned int y)
     return m_solidMap.isSolid(x, y);
 }
 
-Map Map::getEmptyMap(sf::Vector2u s)
+Map Map::getEmptyMap(sf::Vector2u s, const std::string &path)
 {
     Map res;
 
-    res.manualLoad("Unnamed", "Unknown", s.x, s.y, "tileset/tileset.png", "tileset/tileset.png", "tileset/tileset.png");
+    res.manualLoad("Unnamed", "Unknown", s.x, s.y, path, path, path);
 
     res.resetDimensions(s.x, s.y);
 
@@ -166,7 +176,7 @@ Map Map::getEmptyMap(sf::Vector2u s)
 
 }
 
-void Map::loadIndex(const std::string &path)
+bool Map::loadIndex(const std::string &path)
 {
     std::string fullpath = path + "/info.txt";
 
@@ -214,8 +224,9 @@ void Map::loadIndex(const std::string &path)
     else
     {
         std::cout << "Unable to open map info file." << std::endl;
+        return false;
     }
-
+    return true;
 }
 
 void Map::resetDimensions(unsigned int w, unsigned int h)
@@ -223,22 +234,26 @@ void Map::resetDimensions(unsigned int w, unsigned int h)
     m_width = w;
     m_height = h;
 
-    //std::cout << "TEST2\n";
+    std::cout << "TEST2\n";
 
     // Allocate arrays on the heap so that array's size is not restricted
     int* layer0 = new int[m_width * m_height];
     int* layer1 = new int[m_width * m_height];
     int* layer2 = new int[m_width * m_height];
 
-    //std::cout << "TEST1\n";
+    std::cout << "TEST1\n";
 
     std::fill_n(layer0, m_width * m_height, 0);
     std::fill_n(layer1, m_width * m_height, 0);
     std::fill_n(layer2, m_width * m_height, 0);
 
-    m_layer0.load(m_tileset0, sf::Vector2u(32, 32), layer0, m_width, m_height);
-    m_layer1.load(m_tileset1, sf::Vector2u(32, 32), layer1, m_width, m_height);
-    m_layer2.load(m_tileset2, sf::Vector2u(32, 32), layer2, m_width, m_height);
+    m_layer0.load(m_tileset0, sf::Vector2u(TILE_SIZE, TILE_SIZE), layer0, m_width, m_height);
+    m_layer1.load(m_tileset1, sf::Vector2u(TILE_SIZE, TILE_SIZE), layer1, m_width, m_height);
+    m_layer2.load(m_tileset2, sf::Vector2u(TILE_SIZE, TILE_SIZE), layer2, m_width, m_height);
+
+    delete [] layer0;
+    delete [] layer1;
+    delete [] layer2;
 
     std::vector<bool> smap(m_width * m_height, 0);
     m_solidMap.load(smap, m_width, m_height);

@@ -1,5 +1,11 @@
 #include "TileMap.hpp"
 
+TileMap::TileMap() : m_width(16), m_height(16)
+{
+
+}
+
+
 bool TileMap::load(sf::Texture tileset, sf::Vector2u tileSize, const int* tiles, unsigned int width, unsigned int height)
 {
          // load the tileset texture
@@ -48,7 +54,8 @@ bool TileMap::load(sf::Texture tileset, sf::Vector2u tileSize, const int* tiles,
 void TileMap::setTile(sf::Vector2u coord, sf::Vector2u tilesetCoord)
 {
     if(coord.x < 0 || coord.x >= m_width || coord.y < 0 || coord.y >= m_height)
-        throw 1;
+        //throw 1;
+        return;
 
     sf::Vertex* quad = &m_vertices[(coord.x + coord.y * m_width) * 4];
 

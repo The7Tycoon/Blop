@@ -5,6 +5,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+#include "utils.hpp"
+
 class SolidMap : public sf::Drawable, public sf::Transformable
 {
 public:
@@ -42,8 +44,7 @@ private:
     }
 
     std::vector<bool> m_tiles;
-    unsigned int m_width;
-    unsigned int m_height;
+    unsigned int m_width, m_height;
 
     sf::Vector2f m_tileSize;
     sf::RectangleShape m_solidTileShape;
