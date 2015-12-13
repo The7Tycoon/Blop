@@ -25,14 +25,20 @@ public:
     void clearRenderList();
     void render();
 
+
+    void addTimedFunction(sf::Time freq, std::function<void()> f, const std::string &id, bool execute = false);
+    void removeTimedFunction(const std::string &id);
+    void clearTimedFunctionList();
+    void processTimedFunctions();
+
+
     bool isFullscreen();
 
     void create(sf::VideoMode mode, const sf::String &title, sf::Uint32 style=sf::Style::Default, const sf::ContextSettings &settings=sf::ContextSettings());
 
     //void update();
 
-    void addTimedFunction(sf::Time freq, std::function<void()> f, bool execute = false);
-    void processTimedFunctions();
+
 
 private:
     Game_State m_gameState;
@@ -44,7 +50,7 @@ private:
 
     std::vector<sf::Drawable*> m_renderList;
 
-    std::vector<std::tuple<sf::Time, sf::Time, std::function<void()> > > m_timedFunctions;
+    std::vector<std::tuple<sf::Time, sf::Time, std::function<void()>, std::string> > m_timedFunctions;
     //std::vector<std::function<void()>> updateList;
 
 };

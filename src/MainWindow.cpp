@@ -78,13 +78,30 @@ bool MainWindow::isFullscreen()
     return m_isFullscreen;
 }
 
-void MainWindow::addTimedFunction(sf::Time freq, std::function<void()> f, bool execute)
+void MainWindow::addTimedFunction(sf::Time freq, std::function<void()> f, const std::string &id, bool execute)
 {
-    auto a = std::make_tuple(freq, sf::seconds(0), f);
+    auto a = std::make_tuple(freq, sf::seconds(0), f, id);
     m_timedFunctions.push_back(a);
 
     if(execute)
         f();
+}
+
+void MainWindow::removeTimedFunction(const std::string &id)
+{
+    std::vector<std::tuple<sf::Time, sf::Time, std::function<void()>, std::string> >::iterator it = m_timedFunctions.begin();
+
+    size_t i = 0;
+
+    for(auto &a : m_timedFunctions)
+    {
+        if(std::get<3>(a) == id)
+        {
+            m_timedFunctions.erase(it+i);
+        }
+
+        ++i; // Don't judge me for this.
+    }
 }
 
 void MainWindow::processTimedFunctions()
@@ -99,7 +116,9 @@ void MainWindow::processTimedFunctions()
     }
 }
 
-
-
+void MainWindow::clearTimedFunctionList()
+{
+    m_timedFunctions.clear();
+}
 
 

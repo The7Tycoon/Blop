@@ -102,8 +102,9 @@ int main()
     window.addToRender(&mainMenu);
     window.addToRender(&p);
 
-    int i;
-    window.addTimedFunction(sf::seconds(2), [&i](){ i++; std::cout << i << "\n";});
+    int i = 0;
+    window.addTimedFunction(sf::seconds(2), [&i](){ i++; std::cout << i << "\n";}, "i");
+    window.linkKey(sf::Keyboard::X, [&window](){ window.removeTimedFunction("i"); });
 
     while (window.isOpen())
     {
