@@ -68,28 +68,30 @@ void EventManager::executeKey(sf::Keyboard::Key key)
 
 void EventManager::executeArea(const sf::Window &parent)
 {
+    if(m_areaMapping.empty())
+        return;
 
     sf::Vector2i pos = sf::Mouse::getPosition(parent);
 
-        for(auto a : m_areaMapping)
-        {
-                if(pos.x >= a.first.left && pos.x < (a.first.left + a.first.width) && pos.y >= a.first.top && pos.y <= (a.first.top + a.first.height))
+    for(auto a : m_areaMapping)
+    {
+            if(pos.x >= a.first.left && pos.x < (a.first.left + a.first.width) && pos.y >= a.first.top && pos.y <= (a.first.top + a.first.height))
+            {
+                try
                 {
-                    try
-                    {
-                        //m_areaMapping[a.first]();
-                        a.second();
-                    }
-                    catch(...)
-                    {
-                        std::cout << "Exception occurred in EventManager::executeArea !\n"
-                                  << "The area you clicked in has probably not been linked to any valid function but has been registered.\n";
-                    }
+                    //m_areaMapping[a.first]();
+                    a.second();
                 }
+                catch(...)
+                {
+                    std::cout << "Exception occurred in EventManager::executeArea !\n"
+                              << "The area you clicked in has probably not been linked to any valid function but has been registered.\n";
+                }
+            }
 
-                 if(m_areaMapping.empty())
-                    break;
-        }
+            if(m_areaMapping.empty())
+                break;
+    }
 }
 
 void EventManager::clearEvents()

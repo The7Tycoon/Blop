@@ -87,7 +87,7 @@ int main()
     window.linkArea(mainMenu.getItemBounds("Editor"),  [&window, &editor]()
     {
         std::cout << "Editor\n";
-        editor.open(window, "img/mininicular2.png", TILE_SIZE, TILE_SIZE, Map::getEmptyMap(sf::Vector2u(20, 20), "img/mininicular2.png"));
+        editor.open(window, "img/mininicular64.png", TILE_SIZE, TILE_SIZE, Map::getEmptyMap(sf::Vector2u(100, 100), "img/mininicular64.png"));
 
     });
 

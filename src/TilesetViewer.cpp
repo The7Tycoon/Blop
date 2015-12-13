@@ -109,8 +109,8 @@ void TilesetViewer::dragTileset()
         ///
 
         sf::IntRect rect;
-        rect.top = m_viewOffset.x;
-        rect.left = m_viewOffset.y;
+        rect.top = m_viewOffset.y;
+        rect.left = m_viewOffset.x;
         m_tileset.getSize().x > m_viewDim.x ? rect.width = m_viewDim.x : rect.width = m_tileset.getSize().x;
         m_tileset.getSize().y > m_viewDim.y ? rect.height = m_viewDim.y : rect.height = m_tileset.getSize().y;
 

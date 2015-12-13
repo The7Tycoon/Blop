@@ -26,10 +26,10 @@ Editor::Editor() : m_toolbar(sf::Vector2u(0, 0), 64, false), m_tileW(0), m_tileH
 void Editor::createToolbar(MainWindow &window)
 {
 
-    m_toolbar.addItem(window, t1, [&]{m_selectedLayer = 0; m_map.drawSolidMap(false); updateTextLayer();});
-    m_toolbar.addItem(window, t2, [&]{m_selectedLayer = 1; m_map.drawSolidMap(false); updateTextLayer();});
-    m_toolbar.addItem(window, t3, [&]{m_selectedLayer = 2; m_map.drawSolidMap(false); updateTextLayer();});
-    m_toolbar.addItem(window, t4, [&]{m_selectedLayer = 3; m_map.drawSolidMap(true);  updateTextLayer();});
+    m_toolbar.addItem(window, t1, [&](){m_selectedLayer = 0; m_map.drawSolidMap(false); updateTextLayer();});
+    m_toolbar.addItem(window, t2, [&](){m_selectedLayer = 1; m_map.drawSolidMap(false); updateTextLayer();});
+    m_toolbar.addItem(window, t3, [&](){m_selectedLayer = 2; m_map.drawSolidMap(false); updateTextLayer();});
+    m_toolbar.addItem(window, t4, [&](){m_selectedLayer = 3; m_map.drawSolidMap(true);  updateTextLayer();});
 
     //m_toolbar.addItem(window, t5, [&](){ window.removeFromRenderList(&m_map); openMap_prompt(); openMap(window, m_map); });
     m_toolbar.addItem(window, t5, [&](){ openMap_prompt(); });
@@ -56,66 +56,77 @@ void Editor::openTileset(MainWindow &window, const std::string &path, unsigned i
 
 void Editor::linkEvent(MainWindow &window)
 {
+    window.clearEvents();
     window.clearKeys();
     window.clearMouse();
+    window.clearArea();
 
+    window.linkEvent(sf::Event::Closed,             [&window](sf::Event e){ window.close()               ; });
+    window.linkEvent(sf::Event::KeyPressed,         [&window](sf::Event e){ window.executeKey(e.key.code); });
 
     window.linkMouse(sf::Mouse::Left, [&](){ dragTileset_auto(window); setTile_auto(window); });
-
     window.linkMouse(sf::Mouse::Right, [&](){ eraseTile_auto(window); });
 
-    window.linkEvent(sf::Event::MouseButtonPressed, [&](sf::Event e){
-                            window.executeArea(window);
 
-                            if(e.mouseButton.button == sf::Mouse::Left)
-                            {
-                                    sf::Vector2i mouse = sf::Mouse::getPosition(window);
-                                    // Map view
-                                    if(mouse.x < m_tilesetViewerCoord.x && mouse.x > m_mapCoord.x)
-                                    {
-                                        sf::Vector2u coord;
-                                        coord.x = (mouse.x - m_mapCoord.x - m_map.getOffset().x) / m_tileW;
-                                        coord.y = (mouse.y - m_mapCoord.y - m_map.getOffset().y) / m_tileH;
+    window.linkEvent(sf::Event::MouseButtonPressed, [&](sf::Event e)
+    {
+        window.executeArea(window);
 
-                                        try
-                                        {
-                                            if(m_selectedLayer == 3)
-                                                m_map.setTileSolid(coord.x, coord.y, !m_map.isTileSolid(coord.x, coord.y));
+        if(e.mouseButton.button == sf::Mouse::Left)
+        {
+            sf::Vector2i mouse = sf::Mouse::getPosition(window);
+            // Map view
+            if(mouse.x < (int) m_tilesetViewerCoord.x && mouse.x > (int) m_mapCoord.x)
+            {
+                sf::Vector2u coord;
+                coord.x = (mouse.x - m_mapCoord.x - m_map.getOffset().x) / m_tileW;
+                coord.y = (mouse.y - m_mapCoord.y - m_map.getOffset().y) / m_tileH;
 
-                                        }
-                                        catch(int e)
-                                        {
-                                            if(e == 1)
-                                                std::cout << "Exception in Editor::linkEvent @m_map.setTile: map coord out of bounds.\n";
-                                            else
-                                                std::cout << "Unknown exception in Editor::linkEvent. Exception code: " << e << "\n";
-                                        }
+                try
+                {
+                    if(m_selectedLayer == 3)
+                        m_map.setTileSolid(coord.x, coord.y, !m_map.isTileSolid(coord.x, coord.y));
 
-                                    }
-                                }
+                }
+                catch(int e)
+                {
+                    if(e == 1)
+                        std::cout << "Exception in Editor::linkEvent @m_map.setTile: map coord out of bounds.\n";
+                    else
+                        std::cout << "Unknown exception in Editor::linkEvent. Exception code: " << e << "\n";
+                }
+
+            }
+        }
     });
 
     window.linkKey(sf::Keyboard::Escape, [&window](){ window.close(); });
     window.linkKey(sf::Keyboard::C,      [&window](){ window.clearRenderList(); window.clearArea(); });
     //window.linkKey(sf::Keyboard::V,      [&window, this](){ window.removeFromRenderList(&m_tilesetViewer);});
-    window.linkKey(sf::Keyboard::K,      [&window](){
-                                                      sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
-                                                      window.close();
-                                                      if(!window.isFullscreen())
-                                                      {
-                                                            window.create(desktopMode, "Blop", sf::Style::Fullscreen);
-                                                      }
-                                                      else
-                                                      {
-                                                            window.create(desktopMode, "Blop");
-                                                      }
-                                                     });
+
+
+    window.linkKey(sf::Keyboard::K,      [&window]()
+    {
+        sf::VideoMode desktopMode = sf::VideoMode::getDesktopMode();
+        window.close();
+        if(!window.isFullscreen())
+        {
+            window.create(desktopMode, "Blop", sf::Style::Fullscreen);
+        }
+        else
+        {
+            window.create(desktopMode, "Blop");
+        }
+    });
+
 
 
     window.linkKey(sf::Keyboard::Z, [&](){ m_map.addOffset(0, m_tileH); });
     window.linkKey(sf::Keyboard::Q, [&](){ m_map.addOffset(m_tileW, 0); });
     window.linkKey(sf::Keyboard::S, [&](){ m_map.addOffset(0, -m_tileH); });
     window.linkKey(sf::Keyboard::D, [&](){ m_map.addOffset(-m_tileW, 0); });
+
+
 
     window.linkKey(sf::Keyboard::L, [&](){ m_selectedLayer = (m_selectedLayer + 1) % 4;
                                            std::cout << "Selected Layer: " << m_selectedLayer << "\n";
@@ -128,6 +139,7 @@ void Editor::linkEvent(MainWindow &window)
 
                                            });
 
+
     window.linkKey(sf::Keyboard::M, [&](){ m_map.drawSolidMap(!m_map.solidMapDrawed()); });
     window.linkKey(sf::Keyboard::R, [&](){  unsigned int x, y;
                                             std::cout << "New map size : \nAwaiting width input... ";
@@ -138,8 +150,6 @@ void Editor::linkEvent(MainWindow &window)
 
                                             m_map.resetDimensions(x, y);
                                             std::cout << "Done! \n"; });
-
-
 
 }
 
@@ -156,8 +166,8 @@ void Editor::openMap(MainWindow &window, Map m)
 
 void Editor::open(MainWindow &window, const std::string &tilesetPath, unsigned int tileW, unsigned int tileH, Map m)
 {
-    window.clearRenderList();
     window.clearArea();
+    window.clearRenderList();
 
     m_tileW = tileW;
     m_tileH = tileH;
@@ -169,21 +179,29 @@ void Editor::open(MainWindow &window, const std::string &tilesetPath, unsigned i
 
     m_textLayer.setPosition(64, window.getSize().y - 24);
 
-    std::cout << "1\n";
+    /// /!\ ORDER IS IMPORTANT /!\
+    /// linkEvent MUST be before createToolbar
+    /// If not, a SIGSEV may be raised
 
+    std::cout << "Opening map... ";
     openMap(window, m);
 
-    std::cout << "2\n";
+    std::cout << "Done.\nOpening tileset... ";
     openTileset(window, tilesetPath, tileW, tileH);
-    std::cout << "3\n";
-    createToolbar(window);
-    std::cout << "4\n";
+
+    std::cout << "Done.\nAdding text to render... ";
     window.addToRender(&m_textLayer);
-    std::cout << "5\n";
+
+    std::cout << "... ";
     window.addToRender(&m_textMapInfo);
-    std::cout << "6\n";
+
+    std::cout << "Done.\nLinking events... ";
     linkEvent(window);
-    std::cout << "7\n";
+
+    std::cout << "Done.\nCreating toolbar... ";
+    createToolbar(window);
+
+    std::cout << "Done.\nEverything loaded.\n";
 }
 
 void Editor::updateTextLayer()
@@ -237,7 +255,7 @@ void Editor::eraseTile_auto(MainWindow &window)
 {
     // Map view
     sf::Vector2i mouse = sf::Mouse::getPosition(window);
-    if(mouse.x < m_tilesetViewerCoord.x && mouse.x > m_mapCoord.x)
+    if(mouse.x < (int) m_tilesetViewerCoord.x && mouse.x > (int) m_mapCoord.x)
     {
         sf::Vector2u coord;
         coord.x = (mouse.x - m_mapCoord.x - m_map.getOffset().x) / m_tileW;
@@ -263,7 +281,7 @@ void Editor::dragTileset_auto(MainWindow &window)
     sf::Vector2i mouse = sf::Mouse::getPosition(window);
 
     // Tileset Viewer
-    if(mouse.x > m_tilesetViewerCoord.x)
+    if(mouse.x > (int) m_tilesetViewerCoord.x)
     {
         m_tilesetViewer.dragTileset();
         m_tilesetViewer.selectTile(mouse);
@@ -279,7 +297,7 @@ void Editor::setTile_auto(MainWindow &window)
     sf::Vector2i mouse = sf::Mouse::getPosition(window);
 
     // Map view
-    if(mouse.x < m_tilesetViewerCoord.x && mouse.x > m_mapCoord.x)
+    if(mouse.x < (int) m_tilesetViewerCoord.x && mouse.x > (int) m_mapCoord.x)
     {
         sf::Vector2u coord;
         coord.x = (mouse.x - m_mapCoord.x - m_map.getOffset().x) / m_tileW;
