@@ -2,7 +2,8 @@
 
 TileMap::TileMap() : m_width(16), m_height(16)
 {
-
+    m_scale.x = 1;
+    m_scale.y = 1;
 }
 
 
@@ -82,3 +83,25 @@ std::vector<int> TileMap::getTileArray()
         }
     return res;
 }
+
+void TileMap::setScale(sf::Vector2f s)
+{
+    m_scale = s;
+}
+
+void TileMap::setScale(float x, float y)
+{
+    m_scale.x = x;
+    m_scale.y = y;
+}
+
+sf::Vector2f TileMap::getScale()
+{
+    return m_scale;
+}
+
+
+
+
+
+

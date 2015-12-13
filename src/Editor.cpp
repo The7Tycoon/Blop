@@ -100,6 +100,20 @@ void Editor::linkEvent(MainWindow &window)
         }
     });
 
+    window.linkEvent(sf::Event::MouseWheelScrolled, [&](sf::Event e)
+    {
+        if(e.mouseWheelScroll.delta > 0)
+        {
+            m_map.setScale(m_map.getScale().x + 0.1, m_map.getScale().y + 0.1);
+
+        }
+        else
+        {
+            m_map.setScale(m_map.getScale().x - 0.1, m_map.getScale().y - 0.1);
+        }
+
+    });
+
     window.linkKey(sf::Keyboard::Escape, [&window](){ window.close(); });
     window.linkKey(sf::Keyboard::C,      [&window](){ window.clearRenderList(); window.clearArea(); });
     //window.linkKey(sf::Keyboard::V,      [&window, this](){ window.removeFromRenderList(&m_tilesetViewer);});
@@ -258,8 +272,8 @@ void Editor::eraseTile_auto(MainWindow &window)
     if(mouse.x < (int) m_tilesetViewerCoord.x && mouse.x > (int) m_mapCoord.x)
     {
         sf::Vector2u coord;
-        coord.x = (mouse.x - m_mapCoord.x - m_map.getOffset().x) / m_tileW;
-        coord.y = (mouse.y - m_mapCoord.y - m_map.getOffset().y) / m_tileH;
+        coord.x = (mouse.x - m_mapCoord.x - m_map.getOffset().x) / m_tileW / m_map.getScale().x;
+        coord.y = (mouse.y - m_mapCoord.y - m_map.getOffset().y) / m_tileH / m_map.getScale().y;
 
         try
         {
@@ -300,8 +314,8 @@ void Editor::setTile_auto(MainWindow &window)
     if(mouse.x < (int) m_tilesetViewerCoord.x && mouse.x > (int) m_mapCoord.x)
     {
         sf::Vector2u coord;
-        coord.x = (mouse.x - m_mapCoord.x - m_map.getOffset().x) / m_tileW;
-        coord.y = (mouse.y - m_mapCoord.y - m_map.getOffset().y) / m_tileH;
+        coord.x = (mouse.x - m_mapCoord.x - m_map.getOffset().x) / m_tileW / m_map.getScale().x;
+        coord.y = (mouse.y - m_mapCoord.y - m_map.getOffset().y) / m_tileH / m_map.getScale().y;
 
         try
         {

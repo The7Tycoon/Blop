@@ -15,7 +15,7 @@
 /// Class: Map
 ///
 /// Holds a map in memory. A map is composed of multiple arrays (3 sprite arrays, 1 solidmap array, ?entity?)
-/// A Map is a drawable object, it can be directly drown on-screen
+/// A Map is a drawable object, it can be directly drawn on-screen
 ///
 /// Role : - To load an existing map from drive
 ///        - To save a map on drive
@@ -51,6 +51,11 @@ public:
 
     void drawSolidMap(bool b);
     bool solidMapDrawed();
+
+    void setScale(sf::Vector2f s);
+    void setScale(float x, float y);
+
+    sf::Vector2f getScale();
 
 private:
     bool loadIndex(const std::string &path);
@@ -90,7 +95,7 @@ private:
 
     SolidMap m_solidMap;
 
-    sf::Vector2f m_viewOffset;
+    sf::Vector2f m_viewOffset, m_scale;
 
     bool m_drawSolidMap;
 };

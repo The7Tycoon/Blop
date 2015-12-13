@@ -3,6 +3,8 @@
 Map::Map() : m_width(0), m_height(0)
 {
     m_drawSolidMap = false;
+    m_scale.x = 1;
+    m_scale.y = 1;
 }
 
 void Map::loadFromeFolder(const std::string &path)
@@ -234,14 +236,11 @@ void Map::resetDimensions(unsigned int w, unsigned int h)
     m_width = w;
     m_height = h;
 
-    std::cout << "TEST2\n";
-
     // Allocate arrays on the heap so that array's size is not restricted
     int* layer0 = new int[m_width * m_height];
     int* layer1 = new int[m_width * m_height];
     int* layer2 = new int[m_width * m_height];
 
-    std::cout << "TEST1\n";
 
     std::fill_n(layer0, m_width * m_height, 0);
     std::fill_n(layer1, m_width * m_height, 0);
@@ -371,6 +370,28 @@ void Map::setName(std::string name)
 void Map::setAuthor(std::string author)
 {
     m_author = author;
+}
+
+void Map::setScale(float x, float y)
+{
+    m_scale.x = x;
+    m_scale.y = y;
+    m_layer0.setScale(x, y);
+    m_layer1.setScale(x, y);
+    m_layer2.setScale(x, y);
+}
+
+void Map::setScale(sf::Vector2f s)
+{
+    m_scale = s;
+    m_layer0.setScale(s);
+    m_layer1.setScale(s);
+    m_layer2.setScale(s);
+}
+
+sf::Vector2f Map::getScale()
+{
+    return m_scale;
 }
 
 

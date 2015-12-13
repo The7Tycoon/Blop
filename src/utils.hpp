@@ -5,7 +5,7 @@
 
 typedef unsigned int uint;
 
-#define TILE_SIZE 16
+#define TILE_SIZE 64
 
 enum Game_State { IN_GAME, IN_MAIN_MENU, IN_EDITOR};
 

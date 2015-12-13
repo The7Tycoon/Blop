@@ -34,11 +34,15 @@ void MainWindow::render()
 {
     //std::cout << "render\n";
     clear();
+
+    //sf::RenderStates rs;
+    //rs.transform.scale(2, 2);
+
     if(m_renderList.size() > 0)
     {
         for(unsigned int x = 0 ; x < m_renderList.size(); ++x)
         {
-            draw(*m_renderList[x]);
+            draw(*m_renderList[x]/*, rs*/);
         }
     }
 
