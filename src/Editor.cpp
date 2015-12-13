@@ -79,8 +79,8 @@ void Editor::linkEvent(MainWindow &window)
             if(mouse.x < (int) m_tilesetViewerCoord.x && mouse.x > (int) m_mapCoord.x)
             {
                 sf::Vector2u coord;
-                coord.x = (mouse.x - m_mapCoord.x - m_map.getOffset().x) / m_tileW;
-                coord.y = (mouse.y - m_mapCoord.y - m_map.getOffset().y) / m_tileH;
+                coord.x = (mouse.x - m_mapCoord.x - m_map.getOffset().x) / m_tileW / m_map.getScale().x;
+                coord.y = (mouse.y - m_mapCoord.y - m_map.getOffset().y) / m_tileH / m_map.getScale().y;
 
                 try
                 {

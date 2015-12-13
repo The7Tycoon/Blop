@@ -379,6 +379,7 @@ void Map::setScale(float x, float y)
     m_layer0.setScale(x, y);
     m_layer1.setScale(x, y);
     m_layer2.setScale(x, y);
+    m_solidMap.setScale(x, y);
 }
 
 void Map::setScale(sf::Vector2f s)
@@ -387,6 +388,7 @@ void Map::setScale(sf::Vector2f s)
     m_layer0.setScale(s);
     m_layer1.setScale(s);
     m_layer2.setScale(s);
+    m_solidMap.setScale(s);
 }
 
 sf::Vector2f Map::getScale()

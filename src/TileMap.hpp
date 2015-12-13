@@ -27,7 +27,7 @@ private:
     {
         // apply the transform
         states.transform *= getTransform();
-        states.transform.scale(m_scale.x, m_scale.y, target.getSize().x / 2, target.getSize().y / 2);
+        states.transform.scale(m_scale.x, m_scale.y/*, target.getSize().x / 2, target.getSize().y / 2*/);
 
         // apply the tileset texture
         states.texture = &m_tileset;
