@@ -6,6 +6,7 @@
 #include <functional>
 #include <iostream>
 #include <string>
+#include <tuple>
 
 #include "EventManager.hpp"
 #include "utils.hpp"
@@ -30,6 +31,8 @@ public:
 
     //void update();
 
+    void addTimedFunction(sf::Time freq, std::function<void()> f, bool execute = false);
+    void processTimedFunctions();
 
 private:
     Game_State m_gameState;
@@ -37,8 +40,11 @@ private:
     bool m_isFullscreen;
 
     sf::VideoMode m_currentMode;
+    sf::Clock m_clock;
 
     std::vector<sf::Drawable*> m_renderList;
+
+    std::vector<std::tuple<sf::Time, sf::Time, std::function<void()> > > m_timedFunctions;
     //std::vector<std::function<void()>> updateList;
 
 };

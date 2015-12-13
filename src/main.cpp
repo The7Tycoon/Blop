@@ -69,7 +69,7 @@ int main()
 
     CoordPair left; left.a = sf::Vector2i(0, 1); left.b = sf::Vector2i(7, 1);
     p.setWalkingCP(left, left);
-    window.linkKey(sf::Keyboard::W,      [&](){ p.spriteShift(); });
+    window.linkKey(sf::Keyboard::W,      [&p](){ p.spriteShift(); });
 
 
     window.linkArea(mainMenu.getItemBounds("Play"), [&window, &map0]()
@@ -79,7 +79,7 @@ int main()
         window.clearRenderList();
         window.clearArea();
 
-        map0.loadFromeFolder("map/Interior");
+        map0.loadFromeFolder("map/Cave");
         window.addToRender(&map0);
 
     });
@@ -102,9 +102,13 @@ int main()
     window.addToRender(&mainMenu);
     window.addToRender(&p);
 
+    int i;
+    window.addTimedFunction(sf::seconds(2), [&i](){ i++; std::cout << i << "\n";});
+
     while (window.isOpen())
     {
         window.processEvents();
+        window.processTimedFunctions();
         window.render();
     }
 

@@ -22,21 +22,9 @@ void MainWindow::processEvents()
     EventManager::processEvents(this);
 }
 
-/*
-void MainWindow::setBackgroundSprite(const sf::Sprite &spr)
-{
-    bgSprite = spr;
-    renderList.push_back(&bgSprite);
-}
-*/
-
 void MainWindow::render()
 {
-    //std::cout << "render\n";
     clear();
-
-    //sf::RenderStates rs;
-    //rs.transform.scale(2, 2);
 
     if(m_renderList.size() > 0)
     {
@@ -89,6 +77,28 @@ bool MainWindow::isFullscreen()
 {
     return m_isFullscreen;
 }
+
+void MainWindow::addTimedFunction(sf::Time freq, std::function<void()> f, bool execute)
+{
+    auto a = std::make_tuple(freq, sf::seconds(0), f);
+    m_timedFunctions.push_back(a);
+
+    if(execute)
+        f();
+}
+
+void MainWindow::processTimedFunctions()
+{
+    for(auto &a : m_timedFunctions)
+    {
+        if( m_clock.getElapsedTime() - std::get<1>(a) >= std::get<0>(a))
+        {
+            std::get<1>(a) = m_clock.getElapsedTime();    // Update the last execution time
+            std::get<2>(a)();                             // Call the linked function
+        }
+    }
+}
+
 
 
 
