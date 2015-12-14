@@ -31,6 +31,10 @@ public:
     void clearTimedFunctionList();
     void processTimedFunctions();
 
+    /// TO DO:
+    void createDelayedFunction(sf::Time delay, std::function<void()> f);
+    void processDelayedFunctions();
+    ///
 
     bool isFullscreen();
 
@@ -51,6 +55,8 @@ private:
     std::vector<sf::Drawable*> m_renderList;
 
     std::vector<std::tuple<sf::Time, sf::Time, std::function<void()>, std::string> > m_timedFunctions;
+
+    std::vector<std::tuple<sf::Time, sf::Time, std::function<void()> > > m_delayedFunctions;
     //std::vector<std::function<void()>> updateList;
 
 };

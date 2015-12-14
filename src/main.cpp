@@ -103,13 +103,22 @@ int main()
     window.addToRender(&p);
 
     int i = 0;
-    window.addTimedFunction(sf::seconds(2), [&i](){ i++; std::cout << i << "\n";}, "i");
+    window.addTimedFunction(sf::seconds(0.5), [&i](){ i++; std::cout << i << "\n";}, "i");
     window.linkKey(sf::Keyboard::X, [&window](){ window.removeTimedFunction("i"); });
+
+    window.linkKey(sf::Keyboard::C, [&window]()
+    {
+        window.createDelayedFunction(sf::seconds(3), []()
+        {
+            std::cout << "I'm delayed!\n";
+        });
+    });
 
     while (window.isOpen())
     {
         window.processEvents();
         window.processTimedFunctions();
+        window.processDelayedFunctions();
         window.render();
     }
 

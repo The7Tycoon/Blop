@@ -80,7 +80,7 @@ bool MainWindow::isFullscreen()
 
 void MainWindow::addTimedFunction(sf::Time freq, std::function<void()> f, const std::string &id, bool execute)
 {
-    auto a = std::make_tuple(freq, sf::seconds(0), f, id);
+    auto a = std::make_tuple(freq, m_clock.getElapsedTime(), f, id);
     m_timedFunctions.push_back(a);
 
     if(execute)
@@ -119,6 +119,28 @@ void MainWindow::processTimedFunctions()
 void MainWindow::clearTimedFunctionList()
 {
     m_timedFunctions.clear();
+}
+
+void MainWindow::createDelayedFunction(sf::Time delay, std::function<void()> f)
+{
+    auto a = std::make_tuple(delay, m_clock.getElapsedTime(), f);
+    m_delayedFunctions.push_back(a);
+}
+
+void MainWindow::processDelayedFunctions()
+{
+    size_t i = 0;
+    std::vector<std::tuple<sf::Time, sf::Time, std::function<void()> > >::iterator it = m_delayedFunctions.begin();
+
+    for(auto &a : m_delayedFunctions)
+    {
+        if(m_clock.getElapsedTime() - std::get<1>(a) >= std::get<0>(a))
+        {
+            std::get<2>(a)();
+            m_delayedFunctions.erase(it+i);
+        }
+        ++i;
+    }
 }
 
 

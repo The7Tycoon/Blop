@@ -48,8 +48,8 @@ void TilesetViewer::loadTileset(const std::string &path, sf::Vector2u tileDim, s
 /// Input : a pixel coordinate !
 void TilesetViewer::selectTile(sf::Vector2i coord)
 {
-    if   (coord.x < m_tileset.getSize().x + m_coord.x + m_viewOffset.x
-       && coord.y < m_tileset.getSize().y + m_coord.y + m_viewOffset.y)
+    if   (coord.x < (int) m_tileset.getSize().x + (int) m_coord.x + (int) m_viewOffset.x
+       && coord.y < (int) m_tileset.getSize().y + (int) m_coord.y + (int) m_viewOffset.y)
     {
         m_selectedTile.x = (coord.x - m_coord.x + m_viewOffset.x) / m_tileDim.x;
         m_selectedTile.y = (coord.y - m_coord.y + m_viewOffset.y) / m_tileDim.y;
@@ -88,12 +88,12 @@ void TilesetViewer::dragTileset()
         }
 
         /// Prevents the tileset view from going out of bounds
-        if(m_viewOffset.x > m_tileset.getSize().x - m_viewDim.x)
+        if((int) m_viewOffset.x > (int) m_tileset.getSize().x - (int) m_viewDim.x)
         {
             m_viewOffset.x = m_tileset.getSize().x - m_viewDim.x;
         }
 
-        if(m_viewOffset.y > m_tileset.getSize().y - m_viewDim.y)
+        if((int) m_viewOffset.y > (int) m_tileset.getSize().y - (int) m_viewDim.y)
         {
             m_viewOffset.y = m_tileset.getSize().y - m_viewDim.y;
         }
