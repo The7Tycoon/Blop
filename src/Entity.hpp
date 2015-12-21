@@ -30,9 +30,9 @@ private:
 
     //std::map<std::string, std::string> m_properties;
 
-    std::map<std::string, float> m_fProperties;
-    std::map<std::string, long> m_iProperties;
-    std::map<std::string, bool> m_bProperties;
+    std::map<std::string, float>       m_fProperties;
+    std::map<std::string, long>        m_iProperties;
+    std::map<std::string, bool>        m_bProperties;
     std::map<std::string, std::string> m_sProperties;
 
 

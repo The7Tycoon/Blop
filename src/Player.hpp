@@ -15,8 +15,16 @@ public:
     void setWalkingCP(CoordPair left, CoordPair right);
     void setSpriteInfo(float length, float height);
 
+    void setWalking(bool w);
+    bool getWaling();
+
+    void setDirection(int h, int v);
+    void setHDirection(int h);
+    void setVDirection(int v);
+
     void spriteShift();
 
+    void update(sf::Time time);
 
 private:
 
@@ -26,10 +34,16 @@ private:
     }
 
 
-    sf::Sprite m_sprite;
-    CoordPair m_walkingLeft_cp, m_walkingRight_cp;
-    sf::Vector2i m_currentSprite;
-    float m_sprHeight, m_sprLength;
+    sf::Sprite      m_sprite;
+    CoordPair       m_walkingLeft_cp, m_walkingRight_cp;
+    sf::Vector2i    m_currentSprite;
+    sf::Time        m_lastTime, m_lastSpriteTime;
+
+    float    m_sprHeight, m_sprLength;
+    float    m_speed;
+    float    m_isWalking;
+    int      m_hDir;
+    int      m_vDir;
 
 
 };

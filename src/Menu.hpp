@@ -32,15 +32,13 @@ private:
         {
             target.draw(m_menuItem[i], states);
         }
-
-
     }
 
-    std::vector<sf::Text> m_menuItem;
-    sf::Text m_title;
-    Coord m_coord, m_coordTitle;
-    sf::Font m_font, m_fontTitle;
-    uint m_fontSize, m_fontSizeTitle;
+    std::vector<sf::Text>   m_menuItem;
+    sf::Text    m_title;
+    Coord       m_coord, m_coordTitle;
+    sf::Font    m_font, m_fontTitle;
+    uint        m_fontSize, m_fontSizeTitle;
 
 
 };

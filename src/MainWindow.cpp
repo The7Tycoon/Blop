@@ -121,7 +121,7 @@ void MainWindow::clearTimedFunctionList()
     m_timedFunctions.clear();
 }
 
-void MainWindow::createDelayedFunction(sf::Time delay, std::function<void()> f)
+void MainWindow::addDelayedFunction(sf::Time delay, std::function<void()> f)
 {
     auto a = std::make_tuple(delay, m_clock.getElapsedTime(), f);
     m_delayedFunctions.push_back(a);
@@ -141,6 +141,51 @@ void MainWindow::processDelayedFunctions()
         }
         ++i;
     }
+}
+
+void MainWindow::addFunction(const std::string &id, std::function<void()> f, bool execute)
+{
+    auto a = std::make_tuple(f, id);
+    m_functions.push_back(a);
+
+    if(execute)
+        f();
+}
+
+void MainWindow::removeFunction(const std::string &id)
+{
+    std::vector<std::tuple<std::function<void()>, std::string> >::iterator it = m_functions.begin();
+    size_t i = 0;
+
+    for(auto &a : m_functions)
+    {
+        if(std::get<1>(a) == id)
+        {
+            m_functions.erase(it+i);
+        }
+
+        ++i; // Don't judge me for this.
+    }
+
+}
+
+void MainWindow::clearFunctionsList()
+{
+    m_functions.clear();
+}
+
+void MainWindow::processFunctions()
+{
+    for(auto &a : m_functions)
+    {
+            std::get<0>(a)();                             // Call the linked function
+    }
+
+}
+
+sf::Time MainWindow::getElapsedTime()
+{
+    return m_clock.getElapsedTime();
 }
 
 

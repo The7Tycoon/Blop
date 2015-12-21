@@ -61,8 +61,8 @@ void EventManager::executeKey(sf::Keyboard::Key key)
     }
     catch(...)
     {
-        std::cout << "Exception occured in EventManager::executeKey !\n"
-                  << "The key you pressed has probably not been linked to any function.\n";
+        //std::cout << "Exception occured in EventManager::executeKey !\n"
+        //          << "The key you pressed has probably not been linked to any function.\n";
     }
 }
 
