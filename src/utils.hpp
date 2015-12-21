@@ -1,11 +1,17 @@
 #ifndef H_UTILS
 #define H_UTILS
 
+#include <string>
+#include <sstream>
+#include <vector>
 #include <SFML/Graphics.hpp>
 
 typedef unsigned int uint;
 
 #define TILE_SIZE 64
+
+std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
+std::vector<std::string> split(const std::string &s, char delim);
 
 enum Game_State { IN_GAME, IN_MAIN_MENU, IN_EDITOR};
 
