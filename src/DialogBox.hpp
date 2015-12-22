@@ -34,7 +34,7 @@ private:
     void removeTextFromRender(MainWindow &window);
 
     sf::IntRect     m_rect;
-    std::string     m_text, m_title, m_tmpText;
+    std::string     m_title, m_tmpText;
     std::vector<std::string> m_vText;
     sf::Sprite      m_sprite;
     sf::Font        m_font;

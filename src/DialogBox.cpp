@@ -12,7 +12,6 @@ void DialogBox::addText(const std::string &text)
 
 void DialogBox::setText(std::vector<std::string> vText)
 {
-    //m_text = text;
     m_vText = vText;
 }
 
@@ -98,8 +97,6 @@ void DialogBox::display(MainWindow &window, sf::Time &delay)
             window.removeTimedFunction("letterKey");
             window.linkKey(sf::Keyboard::D, [&](){ /*this->display(window, delay);*/ });    // Reseting of the key
         }
-
-        //std::cout << m_tmpText << ":" << m_text << "::" << m_tmpText.size() << "::" << m_words.size() << "\n";
     });
 }
 

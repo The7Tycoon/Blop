@@ -84,6 +84,8 @@ int main()
     db.setTitle("Title");
     db.addText("This is an example text, used in a dialog box. It is used to test the class ability to display a nice box with gradually appearing text, character by character !");
     db.addText("Let's put some more characters ! This should be displayed later...");
+    db.addText("Another one.");
+    db.addText("...");
     db.setTexture(te);
 
     /// Main menu linking ///
