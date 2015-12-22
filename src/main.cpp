@@ -74,14 +74,17 @@ int main()
 
 
     /// Dialog Box ///
+    sf::Texture te;
+    te.loadFromFile("img/toolbox_e.png");
     sf::Font dbFont;
     dbFont.loadFromFile("font/arial.ttf");
     DialogBox db;
-    db.setRect(sf::IntRect(800, 500, 400, 100));
+    db.setRect(sf::IntRect(800, 500, 400, 120));
     db.setFont(dbFont);
     db.setTitle("Title");
-    db.setText("This is an example text, used in a dialog box. It is used to test the class ability to display a nice box with gradually appearing text, character by character !");
-
+    db.addText("This is an example text, used in a dialog box. It is used to test the class ability to display a nice box with gradually appearing text, character by character !");
+    db.addText("Let's put some more characters ! This should be displayed later...");
+    db.setTexture(te);
 
     /// Main menu linking ///
     window.linkArea(mainMenu.getItemBounds("Play"), [&window, &map0]()
@@ -152,7 +155,7 @@ int main()
     /// Key linking ///
     window.linkKey(sf::Keyboard::Escape, [&window](){ window.close(); });
     window.linkKey(sf::Keyboard::K,      [&window, &desktopMode](){ toggleFullscreen(window, desktopMode); });
-    sf::Time t = sf::milliseconds(10);
+    sf::Time t = sf::milliseconds(20);
     window.linkKey(sf::Keyboard::D,      [&](){ db.display(window, t); });
     //window.linkKey(sf::Keyboard::F,      [&](){ std::cout << "Mouse position: " << sf::Mouse::getPosition(window).x << ":" << sf::Mouse::getPosition(window).y << "\n"; });
 
