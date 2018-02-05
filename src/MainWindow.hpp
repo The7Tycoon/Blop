@@ -40,6 +40,7 @@ public:
     void processFunctions();
 
     bool isFullscreen();
+    void toggleFullscreen(sf::VideoMode vMode);
 
     void create(sf::VideoMode mode, const sf::String &title, sf::Uint32 style=sf::Style::Default, const sf::ContextSettings &settings=sf::ContextSettings());
 

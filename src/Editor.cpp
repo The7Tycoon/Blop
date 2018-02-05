@@ -154,7 +154,7 @@ void Editor::linkEvent(MainWindow &window)
                                            });
 
 
-    window.linkKey(sf::Keyboard::M, [&](){ m_map.drawSolidMap(!m_map.solidMapDrawed()); });
+    //window.linkKey(sf::Keyboard::M, [&](){ m_map.drawSolidMap(!m_map.solidMapDrawed()); });
     window.linkKey(sf::Keyboard::R, [&](){  unsigned int x, y;
                                             std::cout << "New map size : \nAwaiting width input... ";
                                             std::cin >> x;
@@ -194,7 +194,7 @@ void Editor::open(MainWindow &window, const std::string &tilesetPath, unsigned i
     m_textLayer.setPosition(64, window.getSize().y - 24);
 
     /// /!\ ORDER IS IMPORTANT /!\
-    /// linkEvent MUST be before createToolbar
+    /// linkEvent MUST be called before createToolbar
     /// If not, a SIGSEV may be raised
 
     std::cout << "Opening map... ";

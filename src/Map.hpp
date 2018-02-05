@@ -9,6 +9,7 @@
 #include <direct.h>
 
 #include "TileMap.hpp"
+#include "TilesetMask.hpp"
 #include "SolidMap.hpp"
 #include "utils.hpp"
 
@@ -36,11 +37,13 @@ public:
     bool isTileSolid(unsigned int x, unsigned int y);
     void setTileSolid(unsigned int x, unsigned int y, bool b);
 
-    static Map getEmptyMap(sf::Vector2u s, const std::string &path);
+    bool isSolid(unsigned int x, unsigned int y);
+
+    static Map getEmptyMap(sf::Vector2u s, const std::string &path, const std::string &path_tm);
 
     void resetDimensions(unsigned int w, unsigned int h);
     void manualLoad(const std::string &name, const std::string &author, unsigned int width, unsigned int height,
-                    const std::string &t0, const std::string &t1, const std::string &t2);
+                    const std::string &t0, const std::string &t1, const std::string &t2, const std::string &tm);
 
     std::string getName();
     void setName(std::string name);
@@ -94,6 +97,8 @@ private:
             m_layer2;
 
     SolidMap m_solidMap;
+
+    TilesetMask m_tsmask;
 
     sf::Vector2f m_viewOffset, m_scale;
 

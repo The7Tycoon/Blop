@@ -166,11 +166,11 @@ bool Map::isTileSolid(unsigned int x, unsigned int y)
     return m_solidMap.isSolid(x, y);
 }
 
-Map Map::getEmptyMap(sf::Vector2u s, const std::string &path)
+Map Map::getEmptyMap(sf::Vector2u s, const std::string &path, const std::string &path_tm)
 {
     Map res;
 
-    res.manualLoad("Unnamed", "Unknown", s.x, s.y, path, path, path);
+    res.manualLoad("Unnamed", "Unknown", s.x, s.y, path, path, path, path_tm);
 
     res.resetDimensions(s.x, s.y);
 
@@ -259,7 +259,7 @@ void Map::resetDimensions(unsigned int w, unsigned int h)
 }
 
 
-void Map::manualLoad(const std::string &name, const std::string &author, unsigned int width, unsigned int height, const std::string &t0, const std::string &t1, const std::string &t2)
+void Map::manualLoad(const std::string &name, const std::string &author, unsigned int width, unsigned int height, const std::string &t0, const std::string &t1, const std::string &t2, const std::string &tm)
 {
     m_name = name;
     m_author = author;
@@ -281,6 +281,9 @@ void Map::manualLoad(const std::string &name, const std::string &author, unsigne
 
     if (!m_tileset2.loadFromFile(t2))
         std::cout << "Unable to open layer2's tileset." << std::endl;
+
+    m_tsmask.loadMask(tm);
+
 
 }
 
@@ -396,5 +399,8 @@ sf::Vector2f Map::getScale()
     return m_scale;
 }
 
+bool Map::isSolid(unsigned int x, unsigned int y)
+{
 
+}
 

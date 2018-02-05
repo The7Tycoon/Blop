@@ -15,6 +15,7 @@
 #include "Entity.hpp"
 #include "Player.hpp"
 #include "DialogBox.hpp"
+#include "TilesetMask.hpp"
 
 
 void toggleFullscreen(MainWindow &window, sf::VideoMode vMode);
@@ -88,6 +89,12 @@ int main()
     db.addText("...");
     db.setTexture(te);
 
+    /* TEST TILEMASK
+    TilesetMask tm("img/mininicular64_mask.png");
+    tm.set(sf::Color::Blue, "solid");
+    std::cout << tm.get(sf::Color::Blue) << ":" << tm.getPixelProp(310, 10) << std::endl;
+    */
+
     /// Main menu linking ///
     window.linkArea(mainMenu.getItemBounds("Play"), [&window, &map0]()
     {
@@ -104,7 +111,7 @@ int main()
     window.linkArea(mainMenu.getItemBounds("Editor"),  [&window, &editor]()
     {
         std::cout << "Editor\n";
-        editor.open(window, "img/mininicular64.png", TILE_SIZE, TILE_SIZE, Map::getEmptyMap(sf::Vector2u(100, 100), "img/mininicular64.png"));
+        editor.open(window, "img/simple.png", TILE_SIZE, TILE_SIZE, Map::getEmptyMap(sf::Vector2u(100, 100), "img/simple.png", "mininicular64_mask.png"));
 
     });
 
@@ -156,7 +163,7 @@ int main()
 
     /// Key linking ///
     window.linkKey(sf::Keyboard::Escape, [&window](){ window.close(); });
-    window.linkKey(sf::Keyboard::K,      [&window, &desktopMode](){ toggleFullscreen(window, desktopMode); });
+    window.linkKey(sf::Keyboard::K,      [&window, &desktopMode](){ window.toggleFullscreen(desktopMode); });
     sf::Time t = sf::milliseconds(20);
     window.linkKey(sf::Keyboard::D,      [&](){ db.display(window, t); });
     //window.linkKey(sf::Keyboard::F,      [&](){ std::cout << "Mouse position: " << sf::Mouse::getPosition(window).x << ":" << sf::Mouse::getPosition(window).y << "\n"; });

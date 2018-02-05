@@ -188,4 +188,15 @@ sf::Time MainWindow::getElapsedTime()
     return m_clock.getElapsedTime();
 }
 
-
+void MainWindow::toggleFullscreen(sf::VideoMode vMode)
+{
+    close();
+    if(!isFullscreen())
+    {
+        create(vMode, "Blop", sf::Style::Fullscreen);
+    }
+    else
+    {
+        create(vMode, "Blop");
+    }
+}
